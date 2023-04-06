@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dnzks!</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Submit a PFB transaction</h1>
+    </header>
+    <form id="form" method="post">
+      <input type="number" name="seed" placeholder="Enter random number" required>
+      <button type="Submit">submit</button>
+
+    </form>
+
+        <div id="result"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(function() {
+  $('#form').submit(function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: '/',
+      method: 'POST',
+      data: $(this).serialize(),
+      success: function(result) {
+        console.log(result)
+        var success = '<h2 class="success">Transaction successful:</h2><pre>' + result  + '</pre>';
+        $('#result').html(success);
+      },
+      error: function(error) {
+        var failed = '<h2 class="failed">Transaction failed:</h2><pre>' + error.responseText + '</pre>';
+        $('#result').html(failed);
+      }
+    });
+  });
+});
+
+    </script>
+  </body>
+</html>
