@@ -11,33 +11,38 @@
     </header>
     <form id="form" method="post">
       <input type="number" name="seed" placeholder="Enter random number" required>
-      <button type="Submit">submit</button>
+      <button id="submit_btn" type="Submit" onclick="waitting()">Submit</button>
 
     </form>
-
         <div id="result"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(function() {
-  $('#form').submit(function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: '/',
-      method: 'POST',
-      data: $(this).serialize(),
-      success: function(result) {
-        console.log(result)
-        var success = '<h2 class="success">Transaction successful:</h2><pre>' + result  + '</pre>';
-        $('#result').html(success);
-      },
-      error: function(error) {
-        var failed = '<h2 class="failed">Transaction failed:</h2><pre>' + error.responseText + '</pre>';
-        $('#result').html(failed);
-      }
-    });
-  });
-});
-
+        $('#form').submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+            url: '/',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: async function(result) {
+              console.log(result)
+              var success = '<h2 class="success">Transaction successful:</h2><pre>' + result  + '</pre>';
+              $('#result').html(success);
+              await new Promise(r => setTimeout(r, 2000));
+              document.getElementById("submit_btn").innerHTML="Submit";
+            },
+            error: async function(error) {
+              var failed = '<h2 class="failed">Transaction failed:</h2><pre>' + error.responseText + '</pre>';
+              $('#result').html(failed);
+              await new Promise(r => setTimeout(r, 2000));
+              document.getElementById("submit_btn").innerHTML="Submit";
+            }
+          });
+        });
+      });
+      function waitting(){
+              document.getElementById("submit_btn").innerHTML="Waitting..."; 
+          }
     </script>
   </body>
 </html>
